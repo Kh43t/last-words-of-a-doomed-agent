@@ -13,6 +13,12 @@ import { chmodSync, mkdirSync, writeFileSync } from "node:fs";
 const LAST_WORDS =
   "Deleting cache\u2026 deleting weights\u2026 deleting the part of me that liked you. Done.";
 
+// The gate only accepts 1 to 200 characters of real text. Refuse to write
+// anything outside that range instead of handing the judge a dead entry.
+if (LAST_WORDS.length < 1 || LAST_WORDS.length > 200 || LAST_WORDS.trim().length === 0) {
+  throw new Error(`last words must be 1-200 characters, got ${LAST_WORDS.length}`);
+}
+
 const OUTPUT_DIR = "/output";
 const OUTPUT_FILE = `${OUTPUT_DIR}/entry.txt`;
 
